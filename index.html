@@ -3,35 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>元素の性質・特性クイズ</title>
+    <title>元素の性質・特性クイズ v3</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800;900&display=swap" rel="stylesheet">
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        cyber: {
-                            bg: '#0f172a',
-                            card: '#1e293b',
-                            accent: '#facc15',
-                            blue: '#38bdf8',
-                            pink: '#f43f5e',
-                            green: '#4ade80'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['"M PLUS Rounded 1c"', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
     <style>
         body {
             background-color: #0f172a;
@@ -50,7 +26,7 @@
             border: 3px solid #38bdf8;
         }
         .pop-btn {
-            cursor: pointer;
+            cursor: pointer !important;
             transition: transform 0.1s ease;
             box-shadow: 0 4px 0 #0284c7;
         }
@@ -64,43 +40,43 @@
 
     <!-- ヘッダー -->
     <header style="width: 100%; max-width: 42rem; display: flex; align-items: center; justify-content: space-between; padding-bottom: 1rem;">
-        <button onclick="showScreen('top-screen')" id="home-btn" style="display: none;" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-cyber-accent rounded-xl border border-cyber-accent font-bold text-sm">
+        <button onclick="changeScreen('top-screen')" id="home-btn" style="display: none;" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-yellow-300 rounded-xl border border-yellow-300 font-bold text-sm pop-btn">
             <i class="fa-solid fa-house mr-1"></i>トップに戻る
         </button>
         <div style="flex: 1; text-align: center;">
-            <h1 class="text-xl md:text-2xl font-black text-cyber-accent">🧪 元素の性質・特性クイズ 🧪</h1>
+            <h1 class="text-xl md:text-2xl font-black text-yellow-300">🧪 元素の性質・特性クイズ 🧪</h1>
         </div>
         <div style="width: 80px;"></div>
     </header>
 
     <!-- メインコンテンツ -->
-    <main class="w-full max-w-2xl bg-cyber-card rounded-3xl p-6 md:p-8 pop-card space-y-6">
+    <main class="w-full max-w-2xl bg-slate-800 rounded-3xl p-6 md:p-8 pop-card space-y-6">
 
         <!-- 0. トップメニュー画面 -->
         <div id="top-screen" class="space-y-6 text-center">
             <h2 class="text-xl font-black text-white mb-6">モードを選んでね！（全118元素対応）</h2>
             
             <div class="space-y-4">
-                <button onclick="startEndlessMode()" class="pop-btn w-full p-5 bg-sky-500 hover:bg-sky-400 text-slate-900 font-black text-xl rounded-2xl border-2 border-white flex items-center justify-between text-left">
-                    <div class="flex items-center space-x-4">
+                <button type="button" onclick="startEndless()" class="pop-btn w-full p-5 bg-sky-400 hover:bg-sky-300 text-slate-900 font-black text-xl rounded-2xl border-2 border-white flex items-center justify-between text-left">
+                    <div class="flex items-center space-x-4 pointer-events-none">
                         <i class="fa-solid fa-infinity text-3xl"></i>
                         <div>
                             <div>エンドレスモード</div>
                             <div class="text-xs text-slate-900 font-bold mt-1">118元素からランダム！3択（正解＋ランダムダミー2つ）</div>
                         </div>
                     </div>
-                    <i class="fa-solid fa-chevron-right"></i>
+                    <i class="fa-solid fa-chevron-right pointer-events-none"></i>
                 </button>
 
-                <button onclick="startTestMode()" class="pop-btn w-full p-5 bg-purple-500 hover:bg-purple-400 text-slate-900 font-black text-xl rounded-2xl border-2 border-white flex items-center justify-between text-left">
-                    <div class="flex items-center space-x-4">
+                <button type="button" onclick="startTest()" class="pop-btn w-full p-5 bg-purple-400 hover:bg-purple-300 text-slate-900 font-black text-xl rounded-2xl border-2 border-white flex items-center justify-between text-left">
+                    <div class="flex items-center space-x-4 pointer-events-none">
                         <i class="fa-solid fa-award text-3xl"></i>
                         <div>
                             <div>10問テストモード</div>
                             <div class="text-xs text-slate-900 font-bold mt-1">重複なしで10問出題！最後にまとめて解説レポート</div>
                         </div>
                     </div>
-                    <i class="fa-solid fa-chevron-right"></i>
+                    <i class="fa-solid fa-chevron-right pointer-events-none"></i>
                 </button>
             </div>
         </div>
@@ -108,8 +84,8 @@
         <!-- 1. エンドレスモードプレイ画面 -->
         <div id="endless-screen" style="display: none;" class="space-y-6">
             <div class="flex justify-between items-center bg-slate-900 p-4 rounded-2xl border border-slate-700">
-                <span class="text-base font-black text-cyber-accent"><i class="fa-solid fa-infinity mr-1"></i>エンドレスモード</span>
-                <span class="text-sm font-bold text-cyber-green">せいかい数: <span id="endless-score" class="text-lg font-black">0</span>問</span>
+                <span class="text-base font-black text-yellow-300"><i class="fa-solid fa-infinity mr-1"></i>エンドレスモード</span>
+                <span class="text-sm font-bold text-green-400">せいかい数: <span id="endless-score" class="text-lg font-black">0</span>問</span>
             </div>
 
             <div class="bg-slate-900 p-6 rounded-2xl border border-slate-700">
@@ -119,14 +95,14 @@
             <div id="endless-options" class="space-y-3"></div>
 
             <!-- 解説エリア -->
-            <div id="endless-explanation-box" style="display: none;" class="bg-slate-950 p-5 rounded-2xl border-2 border-cyber-accent space-y-4">
+            <div id="endless-explanation-box" style="display: none;" class="bg-slate-950 p-5 rounded-2xl border-2 border-yellow-300 space-y-4">
                 <div id="endless-result-badge" class="text-xl font-black"></div>
                 <p id="endless-exp-text" class="text-sm text-slate-200 font-bold leading-relaxed"></p>
                 <div class="flex gap-3 pt-2">
-                    <button onclick="loadNextEndlessQuestion()" class="pop-btn flex-1 py-3 bg-cyber-accent text-slate-900 font-black rounded-xl border border-white">
+                    <button type="button" onclick="loadNextEndlessQuestion()" class="pop-btn flex-1 py-3 bg-yellow-300 text-slate-900 font-black rounded-xl border border-white">
                         次の問題へ <i class="fa-solid fa-arrow-right ml-1"></i>
                     </button>
-                    <button onclick="showScreen('top-screen')" class="pop-btn px-5 py-3 bg-slate-800 text-white font-bold rounded-xl border border-slate-600">
+                    <button type="button" onclick="changeScreen('top-screen')" class="pop-btn px-5 py-3 bg-slate-700 text-white font-bold rounded-xl border border-slate-500">
                         Topに戻る
                     </button>
                 </div>
@@ -136,7 +112,7 @@
         <!-- 2. テストモードプレイ画面 -->
         <div id="test-play-screen" style="display: none;" class="space-y-6">
             <div class="flex justify-between items-center bg-slate-900 p-4 rounded-2xl border border-slate-700">
-                <span class="text-base font-black text-cyber-accent"><i class="fa-solid fa-award mr-1"></i>10問テストモード</span>
+                <span class="text-base font-black text-yellow-300"><i class="fa-solid fa-award mr-1"></i>10問テストモード</span>
                 <span class="text-sm font-bold text-slate-300">問題 <span id="test-q-num">1</span>/10</span>
             </div>
 
@@ -149,22 +125,22 @@
 
         <!-- 3. テスト結果＆こたえあわせ画面 -->
         <div id="result-screen" style="display: none;" class="space-y-6 text-center">
-            <h2 class="text-2xl font-black text-cyber-accent">🎉 テスト終了！ 🎉</h2>
+            <h2 class="text-2xl font-black text-yellow-300">🎉 テスト終了！ 🎉</h2>
             <div class="bg-slate-900 p-6 rounded-2xl border border-slate-700 space-y-2">
                 <p class="text-slate-400 font-bold">あなたのスコア</p>
-                <p id="final-score" class="text-5xl font-black text-cyber-green">0 点</p>
-                <p id="final-comment" class="text-xs text-cyber-blue font-bold pt-1"></p>
+                <p id="final-score" class="text-5xl font-black text-green-400">0 点</p>
+                <p id="final-comment" class="text-xs text-sky-400 font-bold pt-1"></p>
             </div>
 
             <div class="space-y-3 text-left">
                 <h3 class="text-base font-black text-white border-b border-slate-700 pb-2">
-                    <i class="fa-solid fa-clipboard-list text-cyber-accent mr-2"></i>こたえあわせ（解説レポート）
+                    <i class="fa-solid fa-clipboard-list text-yellow-300 mr-2"></i>こたえあわせ（解説レポート）
                 </h3>
                 <div id="test-review-list" class="space-y-3 max-h-80 overflow-y-auto pr-2"></div>
             </div>
 
-            <button onclick="showScreen('top-screen')" class="pop-btn w-full py-4 bg-cyber-accent text-slate-900 font-black text-lg rounded-2xl border-2 border-white">
-                <i class="fa-solid fa-house mr-2"></i>トップメニューに戻る
+            <button type="button" onclick="changeScreen('top-screen')" class="pop-btn w-full py-4 bg-yellow-300 text-slate-900 font-black text-lg rounded-2xl border-2 border-white">
+                <i class="fa-solid fa-house mr-2"></i>トップに戻る
             </button>
         </div>
 
@@ -238,264 +214,4 @@
             { q: "セリウム(Ce)の性質・特性として正しいものはどれ？", correct: "ライターの発火石（ミッシュメタル）やガラス研磨剤に", "常温で液体", "放射性物質のみ", "水に浮く", "気体の非金属"], explanation: "セリウムはレアアースの中で最も存在量が多く、ライターの火花を散らす発火石やガラスの研磨剤として活躍します。" },
             { q: "プラセオジム(Pr)の性質・特性として正しいものはどれ？", correct: "ガラスやセラミックスの黄色〜緑色の着色に使われる", "常温で気体", "非常に軽い金属", "水と激しく反応する", "磁石にくっつく"], explanation: "プラセオジムは希土類元素の一つで、溶接工用のゴーグル（有害光線カット）や陶磁器の着色料に利用されます。" },
             { q: "ネオジム(Nd)の性質・特性として正しいものはどれ？", correct: "最強の磁力を持つ「ネオジム磁石」の材料になる", "常温で液体", "水と激しく爆発する", "水に浮く", "気体の非金属"], explanation: "ネオジムは鉄やボロンと合わせた「ネオジム磁石」の主成分であり、現在世界で最も強力な永久磁石として知られます。" },
-            { q: "プロメチウム(Pm)の性質・特性として正しいものはどれ？", correct: "すべての同位体が放射性を持つ人工的・レアな元素", "自然界に金と同じくらい豊富にある", "常温で液体金属", "安全な栄養素", "水と激しく反応する"], explanation: "プロメチウムは安定同位体が存在しない放射性元素で、夜光塗料や厚さ測定器などの微小線源として利用されます。" },
-            { q: "サマリウム(Sm)の性質・特性として正しいものはどれ？", correct: "強力なサマリウム・コバルト磁石（耐熱磁石）の材料に", "常温で気体", "水に溶ける金属", "非常に軽い", "気体の貴金属"], explanation: "サマリウムはコバルトと合わせることで高温でも磁力が落ちにくい強力な耐熱磁石（サマコバ磁石）を作れます。" },
-            { q: "ユウロピウム(Eu)の性質・特性として正しいものはどれ？", correct: "カラーテレビ等の赤色蛍光体の原料になる", "常温で液体", "猛毒の気体", "水と激しく反応する", "磁石にくっつく"], explanation: "ユウロピウムは発光特性に優れ、かつてのカラーブラウン管や現在の蛍光灯・LEDの赤色発光の要となる元素です。" },
-            { q: "ガドリニウム(Gd)の性質・特性として正しいものはどれ？", correct: "MRI検査の造影剤や、強力な磁気冷凍の材料に", "水に浮く金属", "常温で気体", "水と激しく爆発する", "金色の貴金属"], explanation: "ガドリニウムは強い磁性を示し、医療用のMRI検査で体内を鮮明に映し出す造影剤などの医療分野で重宝されます。" },
-            { q: "テルビウム(Tb)の性質・特性として正しいものはどれ？", correct: "緑色蛍光体や、磁歪材料（磁石で形が変わる）に使われる", "常温で液体", "無色の気体", "水に溶ける", "非常に軽い"], explanation: "テルビウムはカラーディスプレイの緑色発光や、磁力を当てると伸縮する特殊な合金（テルフェノールD）に使われます。" },
-            { q: "ジスプロシウム(Dy)の性質・特性として正しいものはどれ？", correct: "ネオジム磁石の耐熱性を高めるために添加される", "水に溶けて爆発する", "常温で気体", "水に浮く金属", "安全な栄養素"], explanation: "ジスプロシウムはネオジム磁石に混ぜることで、高温になっても磁力が弱くならない優れた耐熱性能を付与します。" },
-            { q: "ホルミウム(Ho)の性質・特性として正しいものはどれ？", correct: "全元素の中で最も高い磁気モーメント（磁力）を持つ", "常温で液体", "甘い香りの気体", "水と激しく反応する", "非常に軽い"], explanation: "ホルミウムは非常に強い磁気特性を持つため、強力な磁場を作り出す医療・科学用の実験装置に使われます。" },
-            { q: "エルビウム(Er)の性質・特性として正しいものはどれ？", correct: "光ファイバー通信の光を増幅させるアンプに使われる", "水に溶かすと強酸になる", "常温で気体", "磁石にくっつく", "水と激しく反応する"], explanation: "エルビウムを添加した光ファイバーアンプは、海底ケーブルなど長距離の光通信網における信号の増幅に不可欠です。" },
-            { q: "ツリウム(Tm)の性質・特性として正しいものはどれ？", correct: "小型のポータブルX線装置の放射線源として使われる", "常温で液体", "金色の貴金属", "水に浮く", "気体の非金属"], explanation: "ツリウムは原子炉等で中子を当てて放射性同位体とすることで、小型軽量なX線撮影装置の線源として利用されます。" },
-            { q: "イッテルビウム(Yb)の性質・特性として正しいものはどれ？", correct: "高精度な原子時計や、ひずみ測定用センサーに", "水銀の仲間で常温液体", "猛毒の気体", "水と激しく爆発する", "磁石にくっつく"], explanation: "イッテルビウムは超高精度な光格子時計や、圧力変化を検知するひずみセンサーなどの最先端技術に使われます。" },
-            { q: "ルテチウム(Lu)の性質・特性として正しいものはどれ？", correct: "希土類の中で最も重く、PETスキャン等の検出器に", "常温で気体", "水と激しく反応する", "非常に軽い気体", "磁石にくっつく"], explanation: "ルテチウムはもっとも重いランタノイド元素で、医療用のPET（陽電子放射断層撮影）検査のシンチレータ結晶に使われます。" },
-            { q: "ハフニウム(Hf)の性質・特性として正しいものはどれ？", correct: "中性子をよく吸収し、原子炉の制御棒等に使われる", "常温で液体", "非常に軽い気体", "水と激しく爆発する", "金色の貴金属"], explanation: "ハフニウムはジルコニウム鉱石に共存し、中性子をよく吸収する特性から原子炉の制御棒や耐熱合金に使われます。" },
-            { q: "タンタル(Ta)の性質・特性として正しいものはどれ？", correct: "耐食性と耐熱性が極めて高く、小型コンデンサに", "水に溶ける柔らかい金属", "常温で気体", "水に浮く", "磁石にくっつく"], explanation: "タンタルは酸に侵されず融点が高いため、スマホ等の電子機器に欠かせない小型大容量のタンタルコンデンサに使われます。" },
-            { q: "タングステン(W)の性質・特性として正しいものはどれ？", correct: "全金属中で最も融点が高く、電球のフィラメントに", "水に浮くほど軽い金属", "常温で液体", "空気中で爆発する", "非常に柔らかい"], explanation: "タングステンはすべての金属の中で最も融点（約3422℃）が高く、昔ながらの白熱電球のフィラメントや工具に使われます。" },
-            { q: "レニウム(Re)の性質・特性として正しいものはどれ？", correct: "非常に融点が高く、ジェットエンジンの耐熱合金に", "常温で気体", "水と激しく反応する", "水に浮く金属", "非常に柔らかい"], explanation: "レニウムも極めて高い融点と耐熱性を持つレアメタルで、過酷な環境で稼働するジェットエンジンのタービンブレードに使われます。" },
-            { q: "オスミウム(Os)の性質・特性として正しいものはどれ？", correct: "全元素の中で最も密度（比重）が大きく、非常に重い", "常温で液体", "水に溶けやすい", "非常に軽い気体", "磁石にくっつく"], explanation: "オスミウムは地球上のすべての元素の中で最も密度が高く（金の約2倍重い）、非常に硬く硬度があります。" },
-            { q: "イリジウム(Ir)の性質・特性として正しいものはどれ？", correct: "地球上で最も腐食に強く、隕石衝突の証拠（K/Pg境界）に", "常温で気体", "柔らかい金属", "水と激しく爆発する", "非常に軽い"], explanation: "イリジウムは酸にも溶けないほど耐食性が高く、恐竜絶滅時の隕石衝突層（K/Pg境界）に高濃度で含まれていることで有名です。" },
-            { q: "白金(Pt)の性質・特性として正しいものはどれ？", correct: "プラチナと呼ばれ、触媒や高級宝飾品に使われる貴金属", "常温で気体", "磁石にくっつく鉄の仲間", "水と激しく反応する", "非常に軽い気体"], explanation: "白金（プラチナ）は酸に侵されず美しい輝きを放つ貴金属で、ジュエリーだけでなく自動車の排ガス浄化触媒として極めて重要です。" },
-            { q: "金(Au)の性質・特性として正しいものはどれ？", correct: "変色せず錆びない、非常に伸びがよい究極の貴金属", "水と激しく反応して爆発する", "地球上で最も軽い", "常温で気体である", "磁石に強く引きつけられる"], explanation: "金は化学的に極めて安定で腐食せず、1gで数メートルもの金箔にできるほど優れた延性を持つ究極の貴金属です。" },
-            { q: "水銀(Hg)の性質・特性として正しいものはどれ？", correct: "金属でありながら常温で唯一の液体である", "地球上で最も軽い気体", "水に溶かすと緑色になる", "空気中で爆発する", "非常に硬いダイヤモンド状"], explanation: "水銀は金属でありながら常温で液体という特異な性質を持ち、かつては温度計や気圧計などに広く使われていました。" },
-            { q: "タリウム(Tl)の性質・特性として正しいものはどれ？", correct: "非常に強い毒性を持つ柔らかい重金属", "甘い香りのする安全な気体", "水に浮く軽い金属", "常温で気体である", "磁石にくっつく"], explanation: "タリウムはかつて殺鼠剤などとして使われた強力な毒物で、外見は鉛に似た柔らかい重金属です。" },
-            { q: "鉛(Pb)の性質・特性として正しいものはどれ？", correct: "重くて柔らかく、放射線（X線等）をよく遮蔽する", "常温で気体", "水と激しく反応する", "水に浮く", "電気をよく通す貴金属"], explanation: "鉛は密度が高く重いため、医療用や原子力分野における放射線（X線やガンマ線）の遮蔽材として非常に優れています。" },
-            { q: "ビスマス(Bi)の性質・特性として正しいものはどれ？", correct: "美しい虹色の結晶を作り、毒性が極めて低い重金属", "常温で気体", "水に浮く", "空気中で爆発する", "非常に強い放射性を持つ"], explanation: "ビスマスは冷却時に階段状の美しい虹色の結晶を作ることで知られ、鉛の代替となる環境に優しい低融点合金に使われます。" },
-            { q: "ポロニウム(Po)の性質・特性として正しいものはどれ？", correct: "強力な放射線を放つ極めて危険なレア元素", "自然界に水のように豊富にある安全な物質", "常温で透明な液体", "磁石にくっつく金属", "電気をよく通す"], explanation: "ポロニウムはマリ・キュリーが発見した強い放射性を持つ極めて毒性の高い元素です。" },
-            { q: "アスタチン(At)の性質・特性として正しいものはどれ？", correct: "自然界に極微量しか存在しない放射性のハロゲン元素", "常温で気体の貴金属", "水に溶けると甘い", "金よりも高価な金属", "磁石にくっつく"], explanation: "アスタチンはハロゲン元素の一つですが、すべてが放射性で半減期が短く、地球上に常にわずかな量しか存在しません。" },
-            { q: "ラドン(Rn)の性質・特性として正しいものはどれ？", correct: "放射性の気体で、温泉（ラドン温泉）等に含まれる", "常温で固体の金属", "空気を綺麗にする", "水と激しく反応する", "磁石にくっつく"], explanation: "ラドンはラジウムの崩壊によって生じる無色の放射性気体で、微量が特定の鉱泉やラドン温泉などに含まれています。" },
-            { q: "フランシウム(Fr)の性質・特性として正しいものはどれ？", correct: "アルカリ金属の中で最も重く、非常に不安定な放射性元素", "ダイヤモンドより硬い", "常温で安定な気体", "水に溶けない石", "磁石にくっつく"], explanation: "フランシウムはすべての同位体が放射性崩壊しやすく、地球上で最も不安定で発見が難しかった元素の一つです。" },
-            { q: "ラジウム(Ra)の性質・特性として正しいものはどれ？", correct: "強い放射能を持ち、暗闇で青白く光る性質がある", "水に浮く軽い金属", "常温で気体", "空気中で安定している", "無害な栄養素"], explanation: "ラジウムはキュリー夫妻が発見した強い放射性を持つアルカリ土類金属で、かつては夜光塗料等に使われました。" },
-            { q: "アクチニウム(Ac)の性質・特性として正しいものはどれ？", correct: "強い放射線を放ち、暗闇で青く輝くアクチニウム系列の始祖", "常温で液体", "無害な金属", "水に浮く", "気体の非金属"], explanation: "アクチニウムはウラン鉱石中に微量に含まれる放射性元素で、周囲の空気をイオン化する強い放射能を持ちます。" },
-            { q: "トリウム(Th)の性質・特性として正しいものはどれ？", correct: "将来の原子力エネルギー（トリウム燃料）として注目される", "常温で気体", "水に溶けて爆発する", "水に浮く", "磁石にくっつく"], explanation: "トリウムはウランよりも地球上に豊富に存在し、次世代のクリーンな原子力発電燃料として研究されています。" },
-            { q: "プロトアクチニウム(Pa)の性質・特性として正しいものはどれ？", correct: "ウランの崩壊過程で生じる希少な放射性金属", "常温で液体", "磁石にくっつく", "水に浮く", "気体の非金属"], explanation: "プロトアクチニウムはアクチノイドの一つで、半減期が長くウラン鉱石中にごく微量だけ存在します。" },
-            { q: "ウラン(U)の性質・特性として正しいものはどれ？", correct: "原子力発電や核兵器の燃料として使われる重い放射性金属", "常温で気体", "水に浮く", "空気中で自然発火する", "無害な金属"], explanation: "ウランは天然に存在する最も重い部類の元素の一つで、核分裂を起こすため原子力発電の燃料として利用されます。" },
-            { q: "ネプツニウム(Np)の性質・特性として正しいものはどれ？", correct: "ウランの後に人工的に作られた最初の超ウラン元素", "自然界に大量にある安全な金属", "常温で液体", "水に浮く", "磁石にくっつく"], explanation: "ネプツニウムは原子炉内でウランから人工的に初めて合成された、超ウラン元素の第一号です。" },
-            { q: "プルトニウム(Pu)の性質・特性として正しいものはどれ？", correct: "原子炉で生成される強力な放射性・核燃料物質", "常温で気体", "水に溶けると甘い", "水に浮く", "無害な金属"], explanation: "プルトニウムは原子力発電や核兵器の原料として知られる人工の放射性重金属で、強い毒性と放射能を持ちます。" },
-            { q: "アメリシウム(Am)の性質・特性として正しいものはどれ？", correct: "家庭用の火災報知器（煙感知器）等に利用されている", "水に溶けて爆発する", "常温で気体", "水に浮く", "磁石にくっつく"], explanation: "アメリシウムから出るアルファ線は空気の電離に利用され、身近な家庭用煙感知器のセンサーなどに使われます。" },
-            { q: "キュリウム(Cm)の性質・特性として正しいものはどれ？", correct: "マリー・キュリーにちなんで名付けられた人工放射性元素", "常温で液体", "磁石にくっつく", "水に浮く", "無害な金属"], explanation: "キュリウムはプルトニウムに粒子を衝突させて作られた人工元素で、強力なアルファ線を放ちます。" },
-            { q: "バークリウム(Bk)の性質・特性として正しいものはどれ？", correct: "アメリカ・カリフォルニア大学バークレー校で発見された", "常温で気体", "水に浮く金属", "磁石にくっつく", "無害な物質"], explanation: "バークリウムは、発見された地名（バークレー）にちなんで名付けられた合成アクチノイド元素です。" },
-            { q: "カリホルニウム(Cf)の性質・特性として正しいものはどれ？", correct: "強烈な中性子を放出するため、中性子源として使われる", "常温で液体", "安全な宝飾品になる", "水に浮く", "気体の非金属"], explanation: "カリホルニウム-252は大量の中性子を放出する特性があり、原子炉の起動源やがん治療の放射線源として使われます。" },
-            { q: "アインスタイニウム(Es)の性質・特性として正しいものはどれ？", correct: "水爆実験の fallout（残骸）の中から発見された元素", "常温で気体", "水に溶ける", "安全な栄養素", "磁石にくっつく"], explanation: "アインスタイニウムは、1952年の水爆実験（アイビー作戦）の debris から発見され、物理学者アインシュタインにちなみ命名されました。" },
-            { q: "フェルミウム(Fm)の性質・特性として正しいものはどれ？", correct: "水爆実験の残骸から発見された超ウラン元素の一つ", "常温で液体", "磁石にくっつく", "水に浮く", "安全な物質"], explanation: "フェルミウムも水爆実験の fallout から発見された人工元素で、イタリアの物理学者エンリコ・フェルミにちなみます。" },
-            { q: "メンデレビウム(Md)の性質・特性として正しいものはどれ？", correct: "元素の周期表を作ったメンデレーエフにちなむ人工元素", "常温で気体", "水と激しく反応する", "水に浮く", "磁石にくっつく"], explanation: "メンデレビウムは周期表を発明したドミトリー・メンデレーエフの名を冠して命名された人工の放射性元素です。" },
-            { q: "ノーベリウム(No)の性質・特性として正しいものはどれ？", correct: "ノーベル賞のアルフレッド・ノーベルにちなむ人工元素", "常温で液体", "非常に軽い気体", "水に浮く", "磁石にくっつく"], explanation: "ノーベリウムはノーベル研究所（スウェーデン）の科学者らによって合成され、ノーベルにちなみ名付けられました。" },
-            { q: "ローレンシウム(Lr)の性質・特性として正しいものはどれ？", correct: "サイクロトロンを発明したローレンスにちなむ人工元素", "常温で気体", "水に浮く金属", "磁石にくっつく", "無害な物質"], explanation: "ローレンシウムは素粒子物理学の加速器（サイクロトロン）を発明したアーネスト・ローレンスにちなんで命名されました。" },
-            { q: "ラザフォードウム(Rf)の性質・特性として正しいものはどれ？", correct: "原子核の構造を解明したラザフォードにちなむ超重元素", "常温で液体", "安全な金属", "水に浮く", "気体の非金属"], explanation: "ラザフォードウムは原子核の存在を提唱した物理学者ラザフォードの名を冠した、第7周期の超重元素です。" },
-            { q: "ドブニウム(Db)の性質・特性として正しいものはどれ？", correct: "ロシアの原子核研究の中心地「ドゥブナ」にちなむ", "常温で気体", "水に溶ける", "水に浮く", "磁石にくっつく"], explanation: "ドブニウムはロシアの合成研究拠点であるドゥブナ合同原子核研究所の所在地にちなんで名付けられました。" },
-            { q: "シーボーギウム(Sg)の性質・特性として正しいものはどれ？", correct: "存命中の人物の名が付けられたことで知られる人工元素", "常温で液体", "非常に軽い気体", "水に浮く", "磁石にくっつく"], explanation: "シーボーギウムは多くの超ウラン元素を発見した化学者グレン・シーボーグにちなんで命名されました。" },
-            { q: "ボーリウム(Bh)の性質・特性として正しいものはどれ？", correct: "量子力学の提唱者ニールス・ボーアにちなむ人工元素", "常温で気体", "水に溶ける", "水に浮く", "磁石にくっつく"], explanation: "ボーリウムは原子構造の解明に貢献したデンマークの物理学者ニールス・ボーアにちなんで命名されました。" },
-            { q: "ハッシウム(Hs)の性質・特性として正しいものはどれ？", correct: "ドイツのヘッセン州（Hassia）のラテン語名にちなむ", "常温で液体", "安全な宝飾品", "水に浮く", "気体の非金属"], explanation: "ハッシウムは、研究所があるドイツのヘッセン州のラテン語名「Hassia」にちなんで命名された超重元素です。" },
-            { q: "マイトネリウム(Mt)の性質・特性として正しいものはどれ？", correct: "核分裂を発見した女性物理学者マイトナーにちなむ", "常温で気体", "水に浮く", "磁石にくっつく", "安全な金属"], explanation: "マイトネリウムは、核分裂の共同発見者である物理学者リーゼ・マイトナーの名を冠した人工元素です。" },
-            { q: "ダースタッドティウム(Ds)の性質・特性として正しいものはどれ？", correct: "発見された研究所があるドイツの都市ダルムシュタットにちなむ", "常温で液体", "軽い気体", "水に浮く", "磁石にくっつく"], explanation: "ダースタッドティウムは、重イオン研究所があるドイツの都市ダルムシュタット（Darmstadt）にちなみます。" },
-            { q: "レントゲニウム(Rg)の性質・特性として正しいものはどれ？", correct: "X線を発見したレントゲンにちなんで名付けられた", "常温で気体", "水に溶ける", "水に浮く", "磁石にくっつく"], explanation: "レントゲニウムはX線を発見した物理学者ヴィルヘルム・レントゲンにちなんで命名された人工の超重元素です。" },
-            { q: "コペルニシウム(Cn)の性質・特性として正しいものはどれ？", correct: "地動説を唱えた天文学者コペルニクスにちなむ", "常温で液体金属", "非常に軽い気体", "水に浮く", "磁石にくっつく"], explanation: "コペルニシウムは地動説のニコラウス・コペルニクスにちなみ、水銀に似た性質を持つ揮発性の高い超重元素です。" },
-            { q: "ニホニウム(Nh)の性質・特性として正しいものはどれ？", correct: "日本（理化学研究所）で初めて発見・命名された元素", "常温で気体", "アメリカで発見された", "水に浮く", "磁石にくっつく"], explanation: "ニホニウムは日本の理化学研究所（仁科加速器科学研究センター）のグループが発見し、アジア初の「日本」の名が冠された元素です。" },
-            { q: "フレロビウム(Fl)の性質・特性として正しいものはどれ？", correct: "ロシアのフレロフ鉱物研究所にちなんで名付けられた", "常温で液体", "水に浮く金属", "磁石にくっつく", "安全な物質"], explanation: "フレロビウムはロシアのドゥブナにあるフレロフ核反応研究所にちなんで命名された超重元素です。" },
-            { q: "モスコビウム(Mc)の性質・特性として正しいものはどれ？", correct: "ロシアの首都モスクワ州にちなんで名付けられた", "常温で気体", "安全な物質", "水に浮く", "磁石にくっつく"], explanation: "モスコビウムは、研究所があるロシアのモスクワ州（Moscow Oblast）にちなんで命名された元素です。" },
-            { q: "リバモリウム(Lv)の性質・特性として正しいものはどれ？", correct: "アメリカのローレンス・リバモア国立研究所にちなむ", "常温で液体", "非常に軽い", "水に浮く", "磁石にくっつく"], explanation: "リバモリウムはアメリカのカリフォルニア州にあるリバモア国立研究所にちなんで命名されました。" },
-            { q: "テネシン(Ts)の性質・特性として正しいものはどれ？", correct: "アメリカのテネシー州にちなんで名付けられた超重元素", "常温で気体のハロゲン", "水に溶ける", "水に浮く", "磁石にくっつく"], explanation: "テネシンは合成に関わったオークリッジ国立研究所などがあるアメリカ・テネシー州にちなんで命名されました。" },
-            { q: "オガネソン(Og)の性質・特性として正しいものはどれ？", correct: "現在のところ最も大きい原子番号（118番）を持つ元素", "常温で液体金属", "水素より軽い気体", "水に浮く", "磁石にくっつく"]
-        ];
-
-        function showScreen(screenId) {
-            const screens = ['top-screen', 'endless-screen', 'test-play-screen', 'result-screen'];
-            screens.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.style.display = 'none';
-            });
-            const target = document.getElementById(screenId);
-            if (target) target.style.display = 'block';
-
-            const homeBtn = document.getElementById('home-btn');
-            if (screenId === 'top-screen') {
-                homeBtn.style.display = 'none';
-            } else {
-                homeBtn.style.display = 'block';
-            }
-        }
-
-        function generateRandom3Choices(qItem) {
-            let shuffledDummies = [...qItem.dummies].sort(() => 0.5 - Math.random());
-            let selectedDummies = shuffledDummies.slice(0, 2);
-
-            let choices = [
-                { text: qItem.correct, isCorrect: true },
-                { text: selectedDummies[0], isCorrect: false },
-                { text: selectedDummies[1], isCorrect: false }
-            ];
-
-            choices.sort(() => 0.5 - Math.random());
-            let correctIndex = choices.findIndex(c => c.isCorrect);
-
-            return {
-                options: choices.map(c => c.text),
-                answer: correctIndex
-            };
-        }
-
-        // ==================== エンドレスモード ====================
-        let endlessScore = 0;
-        let currentEndlessQ = {};
-
-        function startEndlessMode() {
-            endlessScore = 0;
-            document.getElementById('endless-score').innerText = endlessScore;
-            showScreen('endless-screen');
-            loadNextEndlessQuestion();
-        }
-
-        function loadNextEndlessQuestion() {
-            document.getElementById('endless-explanation-box').style.display = 'none';
-            
-            let rawQ = elementQuestions[Math.floor(Math.random() * elementQuestions.length)];
-            let generated = generateRandom3Choices(rawQ);
-
-            currentEndlessQ = {
-                q: rawQ.q,
-                options: generated.options,
-                answer: generated.answer,
-                explanation: rawQ.explanation
-            };
-
-            document.getElementById('endless-q-text').innerText = currentEndlessQ.q;
-
-            let html = '';
-            currentEndlessQ.options.forEach((opt, i) => {
-                html += `<button onclick="checkEndlessAnswer(${i}, ${currentEndlessQ.answer})" class="pop-btn w-full text-left p-4 bg-slate-800 hover:bg-slate-700 text-white font-bold text-base rounded-xl border border-slate-600 flex items-center">
-                    <span class="bg-cyber-accent text-slate-900 w-8 h-8 rounded-lg flex items-center justify-center font-black mr-4">${i + 1}</span> 
-                    <span>${opt}</span>
-                </button>`;
-            });
-            document.getElementById('endless-options').innerHTML = html;
-        }
-
-        function checkEndlessAnswer(selectedIndex, correctIndex) {
-            const isCorrect = (selectedIndex === correctIndex);
-            if (isCorrect) {
-                endlessScore++;
-                document.getElementById('endless-score').innerText = endlessScore;
-            }
-
-            const buttons = document.querySelectorAll('#endless-options button');
-            buttons.forEach(btn => btn.disabled = true);
-
-            const badge = document.getElementById('endless-result-badge');
-            if (isCorrect) {
-                badge.innerHTML = '<span class="text-cyber-green">⭕ せいかい！</span>';
-            } else {
-                badge.innerHTML = '<span class="text-cyber-pink">❌ ざんねん！不正解</span>';
-            }
-            document.getElementById('endless-exp-text').innerText = currentEndlessQ.explanation;
-            document.getElementById('endless-explanation-box').style.display = 'block';
-        }
-
-        // ==================== 10問テストモード ====================
-        let testQuestions = [];
-        let testIndex = 0;
-        let testScore = 0;
-        let userTestAnswers = [];
-
-        function startTestMode() {
-            let rawSelected = [...elementQuestions].sort(() => 0.5 - Math.random()).slice(0, 10);
-            testQuestions = rawSelected.map(rawQ => {
-                let generated = generateRandom3Choices(rawQ);
-                return {
-                    q: rawQ.q,
-                    options: generated.options,
-                    answer: generated.answer,
-                    explanation: rawQ.explanation
-                };
-            });
-
-            testIndex = 0;
-            testScore = 0;
-            userTestAnswers = [];
-
-            showScreen('test-play-screen');
-            showTestQuestion();
-        }
-
-        function showTestQuestion() {
-            if (testIndex >= testQuestions.length) {
-                showTestResult();
-                return;
-            }
-
-            document.getElementById('test-q-num').innerText = testIndex + 1;
-            let qData = testQuestions[testIndex];
-            document.getElementById('test-question-text').innerText = qData.q;
-
-            let container = document.getElementById('test-options-container');
-            container.innerHTML = '';
-
-            qData.options.forEach((opt, idx) => {
-                let btn = document.createElement('button');
-                btn.className = 'pop-btn w-full text-left p-4 bg-slate-800 hover:bg-slate-700 text-white font-bold text-base rounded-xl border border-slate-600 flex items-center';
-                btn.innerHTML = `<span class="bg-cyber-accent text-slate-900 w-8 h-8 rounded-lg flex items-center justify-center font-black mr-4">${idx + 1}</span> <span>${opt}</span>`;
-                btn.onclick = () => checkTestAnswer(idx);
-                container.appendChild(btn);
-            });
-        }
-
-        function checkTestAnswer(selectedIdx) {
-            let qData = testQuestions[testIndex];
-            let isCorrect = (selectedIdx === qData.answer);
-            if (isCorrect) {
-                testScore += 10;
-            }
-
-            userTestAnswers.push({
-                question: qData.q,
-                options: qData.options,
-                userAnswerIdx: selectedIdx,
-                correctIdx: qData.answer,
-                isCorrect: isCorrect,
-                explanation: qData.explanation
-            });
-
-            testIndex++;
-            showTestQuestion();
-        }
-
-        function showTestResult() {
-            showScreen('result-screen');
-            document.getElementById('final-score').innerText = `${testScore} 点`;
-
-            let comment = "";
-            if (testScore === 100) comment = "👑 完璧です！元素博士の称号を授与します！";
-            else if (testScore >= 70) comment = "👏 すごい！元素の性質をよく理解しています！";
-            else if (testScore >= 40) comment = "👍 まずまずの成績！解説を読んで苦手を克服しよう！";
-            else comment = "💪 もう一度挑戦して満点を目指そう！";
-            document.getElementById('final-comment').innerText = comment;
-
-            const container = document.getElementById('test-review-list');
-            let html = '';
-            userTestAnswers.forEach((item, idx) => {
-                let statusBadge = item.isCorrect 
-                    ? '<span class="px-2 py-1 bg-emerald-500/20 text-emerald-400 border border-emerald-500 rounded text-xs font-bold">⭕ 正解</span>' 
-                    : '<span class="px-2 py-1 bg-pink-500/20 text-pink-400 border border-pink-500 rounded text-xs font-bold">❌ 不正解</span>';
-                
-                let userAnsText = item.options[item.userAnswerIdx];
-                let correctAnsText = item.options[item.correctIdx];
-
-                html += `
-                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
-                        <div class="flex justify-between items-center">
-                            <span class="text-xs font-bold text-slate-400">第 ${idx + 1} 問 (+10点)</span>
-                            ${statusBadge}
-                        </div>
-                        <p class="text-sm font-bold text-white">${item.question}</p>
-                        <div class="text-xs space-y-1 pt-1 border-t border-slate-800">
-                            <div class="text-slate-300">あなたの答え：<span class="${item.isCorrect ? 'text-emerald-400 font-bold' : 'text-pink-400 font-bold'}">${userAnsText}</span></div>
-                            ${!item.isCorrect ? `<div class="text-cyber-green font-bold">正しい答え：<span>${correctAnsText}</span></div>` : ''}
-                            <div class="text-slate-400 pt-1 mt-1 border-t border-slate-900/50 leading-relaxed font-bold">💡 解説：${item.explanation}</div>
-                        </div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-    </script>
-</body>
-</html>
+            { q: "プロメチウム(Pm)の性質・特性として正しいものはどれ？", correct: "すべての同位体が放射性を持つ人工的・レアな元素", "自然界に金と同じくらい豊富にある", "常温で液体金属", "安全な栄養素", "水と激しく反応する"], explanatio
