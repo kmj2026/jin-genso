@@ -27,6 +27,7 @@
         }
         .pop-btn {
             cursor: pointer !important;
+            touch-action: manipulation;
             transition: transform 0.1s ease;
             box-shadow: 0 4px 0 #0284c7;
         }
@@ -44,7 +45,7 @@
             <i class="fa-solid fa-house mr-1"></i>トップに戻る
         </button>
         <div style="flex: 1; text-align: center;">
-            <h1 class="text-xl md:text-2xl font-black text-yellow-300">🧪 元素の性質・特性クイズ 🧪</h1>
+            <h1 class="text-xl md:text-2xl font-black text-yellow-300">🧪 元素クイズ 🧪</h1>
         </div>
         <div style="width: 80px;"></div>
     </header>
@@ -62,7 +63,7 @@
                         <i class="fa-solid fa-infinity text-3xl"></i>
                         <div>
                             <div>エンドレスモード</div>
-                            <div class="text-xs text-slate-900 font-bold mt-1">118元素からランダム！3択（正解＋ランダムダミー2つ）</div>
+                            <div class="text-xs text-slate-900 font-bold mt-1">118元素からランダム！3択クイズ</div>
                         </div>
                     </div>
                     <i class="fa-solid fa-chevron-right pointer-events-none"></i>
@@ -73,7 +74,7 @@
                         <i class="fa-solid fa-award text-3xl"></i>
                         <div>
                             <div>10問テストモード</div>
-                            <div class="text-xs text-slate-900 font-bold mt-1">重複なしで10問出題！最後にまとめて解説レポート</div>
+                            <div class="text-xs text-slate-900 font-bold mt-1">重複なしで10問！最後に解説レポート</div>
                         </div>
                     </div>
                     <i class="fa-solid fa-chevron-right pointer-events-none"></i>
@@ -84,17 +85,16 @@
         <!-- 1. エンドレスモードプレイ画面 -->
         <div id="endless-screen" style="display: none;" class="space-y-6">
             <div class="flex justify-between items-center bg-slate-900 p-4 rounded-2xl border border-slate-700">
-                <span class="text-base font-black text-yellow-300"><i class="fa-solid fa-infinity mr-1"></i>エンドレスモード</span>
-                <span class="text-sm font-bold text-green-400">せいかい数: <span id="endless-score" class="text-lg font-black">0</span>問</span>
+                <span class="text-base font-black text-yellow-300"><i class="fa-solid fa-infinity mr-1"></i>エンドレス</span>
+                <span class="text-sm font-bold text-green-400">正解数: <span id="endless-score" class="text-lg font-black">0</span>問</span>
             </div>
 
             <div class="bg-slate-900 p-6 rounded-2xl border border-slate-700">
-                <p id="endless-q-text" class="text-lg font-bold text-white leading-relaxed">ここに問題文が入ります。</p>
+                <p id="endless-q-text" class="text-lg font-bold text-white leading-relaxed"></p>
             </div>
 
             <div id="endless-options" class="space-y-3"></div>
 
-            <!-- 解説エリア -->
             <div id="endless-explanation-box" style="display: none;" class="bg-slate-950 p-5 rounded-2xl border-2 border-yellow-300 space-y-4">
                 <div id="endless-result-badge" class="text-xl font-black"></div>
                 <p id="endless-exp-text" class="text-sm text-slate-200 font-bold leading-relaxed"></p>
@@ -112,18 +112,18 @@
         <!-- 2. テストモードプレイ画面 -->
         <div id="test-play-screen" style="display: none;" class="space-y-6">
             <div class="flex justify-between items-center bg-slate-900 p-4 rounded-2xl border border-slate-700">
-                <span class="text-base font-black text-yellow-300"><i class="fa-solid fa-award mr-1"></i>10問テストモード</span>
+                <span class="text-base font-black text-yellow-300"><i class="fa-solid fa-award mr-1"></i>10問テスト</span>
                 <span class="text-sm font-bold text-slate-300">問題 <span id="test-q-num">1</span>/10</span>
             </div>
 
             <div class="bg-slate-900 p-6 rounded-2xl border border-slate-700">
-                <p id="test-question-text" class="text-lg font-bold text-white leading-relaxed">ここに問題文が入ります。</p>
+                <p id="test-question-text" class="text-lg font-bold text-white leading-relaxed"></p>
             </div>
 
             <div id="test-options-container" class="space-y-3"></div>
         </div>
 
-        <!-- 3. テスト結果＆こたえあわせ画面 -->
+        <!-- 3. テスト結果画面 -->
         <div id="result-screen" style="display: none;" class="space-y-6 text-center">
             <h2 class="text-2xl font-black text-yellow-300">🎉 テスト終了！ 🎉</h2>
             <div class="bg-slate-900 p-6 rounded-2xl border border-slate-700 space-y-2">
@@ -134,7 +134,7 @@
 
             <div class="space-y-3 text-left">
                 <h3 class="text-base font-black text-white border-b border-slate-700 pb-2">
-                    <i class="fa-solid fa-clipboard-list text-yellow-300 mr-2"></i>こたえあわせ（解説レポート）
+                    <i class="fa-solid fa-clipboard-list text-yellow-300 mr-2"></i>こたえあわせ
                 </h3>
                 <div id="test-review-list" class="space-y-3 max-h-80 overflow-y-auto pr-2"></div>
             </div>
@@ -146,13 +146,11 @@
 
     </main>
 
-    <!-- フッター -->
     <footer class="text-center text-xs text-slate-500 font-bold pb-2">
         kmj
     </footer>
 
     <script>
-        // 1〜118元素すべての性質・特性データベース
         const elementQuestions = [
             { q: "水素(H)の性質・特性として正しいものはどれ？", correct: "火をつけると激しく燃える", dummies: ["常温で液体である", "磁石に強く引きつけられる", "水よりも重い固体である", "電気をピカピカよく通す金属である", "強い放射線を出す"], explanation: "水素は火をつけると激しく燃え、『水素爆発』を起こすことも。宇宙で最も多く存在する最も軽い元素です。" },
             { q: "ヘリウム(He)の性質・特性として正しいものはどれ？", correct: "吸い込むと声が高くなる", dummies: ["強い毒性がある", "水に溶かすと強い酸性になる", "常温で気体の金属である", "空気に触れると爆発する", "磁石にくっつく"], explanation: "ヘリウムは非常に軽く不燃性の気体で、吸い込むと声が高くなります。宇宙では水素の次に多い元素です。" },
@@ -214,4 +212,5 @@
             { q: "セリウム(Ce)の性質・特性として正しいものはどれ？", correct: "ライターの発火石（ミッシュメタル）やガラス研磨剤に", "常温で液体", "放射性物質のみ", "水に浮く", "気体の非金属"], explanation: "セリウムはレアアースの中で最も存在量が多く、ライターの火花を散らす発火石やガラスの研磨剤として活躍します。" },
             { q: "プラセオジム(Pr)の性質・特性として正しいものはどれ？", correct: "ガラスやセラミックスの黄色〜緑色の着色に使われる", "常温で気体", "非常に軽い金属", "水と激しく反応する", "磁石にくっつく"], explanation: "プラセオジムは希土類元素の一つで、溶接工用のゴーグル（有害光線カット）や陶磁器の着色料に利用されます。" },
             { q: "ネオジム(Nd)の性質・特性として正しいものはどれ？", correct: "最強の磁力を持つ「ネオジム磁石」の材料になる", "常温で液体", "水と激しく爆発する", "水に浮く", "気体の非金属"], explanation: "ネオジムは鉄やボロンと合わせた「ネオジム磁石」の主成分であり、現在世界で最も強力な永久磁石として知られます。" },
-            { q: "プロメチウム(Pm)の性質・特性として正しいものはどれ？", correct: "すべての同位体が放射性を持つ人工的・レアな元素", "自然界に金と同じくらい豊富にある", "常温で液体金属", "安全な栄養素", "水と激しく反応する"],
+            { q: "プロメチウム(Pm)の性質・特性として正しいものはどれ？", correct: "すべての同位体が放射性を持つ人工的・レアな元素", "自然界に金と同じくらい豊富にある", "常温で液体金属", "安全な栄養素", "水と激しく反応する"], explanation: "プロメチウムは安定同位体が存在しない放射性元素で、夜光塗料や厚さ測定器などの微小線源として利用されます。" },
+            { q: "サマリウム(Sm)の性質・特性として正
