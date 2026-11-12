@@ -49,6 +49,7 @@
         .pop-button {
             transition: all 0.1s ease;
             box-shadow: 0 4px 0 #0284c7;
+            cursor: pointer;
         }
         .pop-button:active {
             transform: translateY(4px);
@@ -66,8 +67,8 @@
 </head>
 <body class="min-h-screen flex flex-col items-center justify-between p-4 font-sans">
 
-    <!-- 共通カウントダウンオーバーレイ -->
-    <div id="countdown-overlay" class="hidden fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-sm flex flex-col items-center justify-center">
+    <!-- 共通カウントダウンオーバーレイ（初期状態は pointer-events-none でクリックを完全無効化） -->
+    <div id="countdown-overlay" class="hidden pointer-events-none fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-sm flex flex-col items-center justify-center">
         <div id="countdown-text" class="text-7xl md:text-9xl font-black text-cyber-accent tracking-wider drop-shadow-[0_0_25px_rgba(250,204,21,0.8)] animate-countdown">
             3
         </div>
@@ -76,7 +77,7 @@
 
     <!-- 共通ヘッダー -->
     <header class="w-full max-w-2xl flex items-center justify-between py-4">
-        <button onclick="showScreen('top-screen')" id="home-btn" class="hidden px-4 py-2 bg-slate-800 hover:bg-slate-700 text-cyber-accent rounded-xl border border-cyber-accent font-bold text-sm transition">
+        <button onclick="showScreen('top-screen')" id="home-btn" class="hidden px-4 py-2 bg-slate-800 hover:bg-slate-700 text-cyber-accent rounded-xl border border-cyber-accent font-bold text-sm transition cursor-pointer">
             <i class="fa-solid fa-house mr-1"></i>トップに戻る
         </button>
         <div class="text-center flex-1">
@@ -98,25 +99,25 @@
             
             <div class="grid grid-cols-1 gap-4">
                 <button onclick="triggerEndlessMode()" class="pop-button flex items-center justify-between p-5 bg-sky-500 hover:bg-sky-400 text-slate-900 font-black text-xl rounded-2xl border-2 border-white text-left">
-                    <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-4 pointer-events-none">
                         <i class="fa-solid fa-infinity text-3xl"></i>
                         <div>
                             <div>エンドレスモード</div>
                             <div class="text-xs text-slate-800 font-bold mt-0.5">118元素からランダム！3択（正解＋ランダムダミー2つ）</div>
                         </div>
                     </div>
-                    <i class="fa-solid fa-chevron-right"></i>
+                    <i class="fa-solid fa-chevron-right pointer-events-none"></i>
                 </button>
 
                 <button onclick="triggerTestMode()" class="pop-button flex items-center justify-between p-5 bg-purple-500 hover:bg-purple-400 text-slate-900 font-black text-xl rounded-2xl border-2 border-white text-left">
-                    <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-4 pointer-events-none">
                         <i class="fa-solid fa-award text-3xl"></i>
                         <div>
                             <div>10問テストモード</div>
                             <div class="text-xs text-slate-800 font-bold mt-0.5">重複なしで10問出題！最後にまとめて解説レポート</div>
                         </div>
                     </div>
-                    <i class="fa-solid fa-chevron-right"></i>
+                    <i class="fa-solid fa-chevron-right pointer-events-none"></i>
                 </button>
             </div>
         </div>
@@ -139,10 +140,10 @@
                 <div id="endless-result-badge" class="text-xl font-black"></div>
                 <p id="endless-exp-text" class="text-sm md:text-base text-slate-200 leading-relaxed font-bold"></p>
                 <div class="flex gap-3 pt-2">
-                    <button onclick="loadNextEndlessQuestion()" class="pop-button flex-1 py-3 bg-cyber-accent text-slate-900 font-black text-base rounded-xl border border-white">
+                    <button onclick="loadNextEndlessQuestion()" class="pop-button flex-1 py-3 bg-cyber-accent text-slate-900 font-black text-base rounded-xl border border-white cursor-pointer">
                         次の問題へ <i class="fa-solid fa-arrow-right ml-1"></i>
                     </button>
-                    <button onclick="showScreen('top-screen')" class="pop-button px-5 py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold text-base rounded-xl border border-slate-600">
+                    <button onclick="showScreen('top-screen')" class="pop-button px-5 py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold text-base rounded-xl border border-slate-600 cursor-pointer">
                         Topに戻る
                     </button>
                 </div>
@@ -181,7 +182,7 @@
             </div>
 
             <div class="pt-2">
-                <button onclick="showScreen('top-screen')" class="pop-button w-full py-4 bg-cyber-accent text-slate-900 font-black text-xl rounded-2xl border-2 border-white">
+                <button onclick="showScreen('top-screen')" class="pop-button w-full py-4 bg-cyber-accent text-slate-900 font-black text-xl rounded-2xl border-2 border-white cursor-pointer">
                     <i class="fa-solid fa-house mr-2"></i>トップメニューに戻る
                 </button>
             </div>
@@ -324,6 +325,7 @@
             const overlay = document.getElementById('countdown-overlay');
             const textEl = document.getElementById('countdown-text');
             overlay.classList.remove('hidden');
+            overlay.style.pointerEvents = 'auto'; // カウントダウン中は背面のクリックをブロック
 
             let count = 3;
             const updateCount = (val, colorClass = 'text-cyber-accent') => {
@@ -344,6 +346,7 @@
                 } else {
                     clearInterval(countdownInterval);
                     overlay.classList.add('hidden');
+                    overlay.style.pointerEvents = 'none'; // 通常時はクリック透過
                     callback();
                 }
             }, 800);
@@ -351,7 +354,9 @@
 
         function showScreen(screenId) {
             clearInterval(countdownInterval);
-            document.getElementById('countdown-overlay').classList.add('hidden');
+            const overlay = document.getElementById('countdown-overlay');
+            overlay.classList.add('hidden');
+            overlay.style.pointerEvents = 'none';
 
             const screens = ['top-screen', 'endless-screen', 'test-play-screen', 'result-screen'];
             screens.forEach(id => {
@@ -416,9 +421,9 @@
 
             let html = '';
             currentEndlessQ.options.forEach((opt, i) => {
-                html += `<button onclick="checkEndlessAnswer(${i}, ${currentEndlessQ.answer})" class="pop-button w-full text-left p-4 bg-slate-800 hover:bg-slate-700 text-white font-bold text-lg rounded-xl border border-slate-600 flex items-center transition">
-                    <span class="bg-cyber-accent text-slate-900 w-8 h-8 rounded-lg flex items-center justify-center font-black mr-4">${i + 1}</span> 
-                    <span>${opt}</span>
+                html += `<button onclick="checkEndlessAnswer(${i}, ${currentEndlessQ.answer})" class="pop-button w-full text-left p-4 bg-slate-800 hover:bg-slate-700 text-white font-bold text-lg rounded-xl border border-slate-600 flex items-center transition cursor-pointer">
+                    <span class="bg-cyber-accent text-slate-900 w-8 h-8 rounded-lg flex items-center justify-center font-black mr-4 pointer-events-none">${i + 1}</span> 
+                    <span class="pointer-events-none">${opt}</span>
                 </button>`;
             });
             document.getElementById('endless-options').innerHTML = html;
@@ -486,8 +491,8 @@
 
             qData.options.forEach((opt, idx) => {
                 let btn = document.createElement('button');
-                btn.className = 'pop-button w-full text-left p-4 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl border border-slate-600 flex items-center transition';
-                btn.innerHTML = `<span class="bg-cyber-accent text-slate-900 w-8 h-8 rounded-lg flex items-center justify-center font-black mr-4">${idx + 1}</span> <span class="text-lg">${opt}</span>`;
+                btn.className = 'pop-button w-full text-left p-4 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl border border-slate-600 flex items-center transition cursor-pointer';
+                btn.innerHTML = `<span class="bg-cyber-accent text-slate-900 w-8 h-8 rounded-lg flex items-center justify-center font-black mr-4 pointer-events-none">${idx + 1}</span> <span class="text-lg pointer-events-none">${opt}</span>`;
                 btn.onclick = () => checkTestAnswer(idx);
                 container.appendChild(btn);
             });
