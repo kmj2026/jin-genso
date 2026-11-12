@@ -236,8 +236,9 @@
             </div>
 
             <div style="background-color: #0f172a; padding: 1.25rem; border-radius: 1rem; border: 1px solid #475569; margin-bottom: 1.5rem; text-align: left;">
-                <label style="display: block; font-size: 0.85rem; font-weight: bold; color: #cbd5e1; margin-bottom: 0.5rem;">ランキングに載せる名前を入力してね</label>
+                <label style="display: block; font-size: 0.85rem; font-weight: bold; color: #cbd5e1; margin-bottom: 0.5rem;">ランキングに載せる名前を入力してね <span style="color: #f43f5e;">(必須)</span></label>
                 <input type="text" id="endless-player-name" maxlength="12" placeholder="なまえ（例: 元素博士）" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #475569; background-color: #1e293b; color: #ffffff; font-weight: bold; font-size: 1rem;">
+                <div id="endless-name-error" style="color: #f43f5e; font-size: 0.75rem; font-weight: bold; margin-top: 0.5rem; display: none;">⚠️ 名前を入力してください</div>
             </div>
 
             <button type="button" onclick="saveEndlessRanking()" class="primary-action-btn" id="endless-save-btn">
@@ -269,8 +270,9 @@
             </div>
 
             <div style="background-color: #0f172a; padding: 1.25rem; border-radius: 1rem; border: 1px solid #475569; margin-bottom: 1.5rem; text-align: left;">
-                <label style="display: block; font-size: 0.85rem; font-weight: bold; color: #cbd5e1; margin-bottom: 0.5rem;">ランキングに載せる名前を入力してね</label>
+                <label style="display: block; font-size: 0.85rem; font-weight: bold; color: #cbd5e1; margin-bottom: 0.5rem;">ランキングに載せる名前を入力してね <span style="color: #f43f5e;">(必須)</span></label>
                 <input type="text" id="test-player-name" maxlength="12" placeholder="なまえ（例: テスト王）" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #475569; background-color: #1e293b; color: #ffffff; font-weight: bold; font-size: 1rem;">
+                <div id="test-name-error" style="color: #f43f5e; font-size: 0.75rem; font-weight: bold; margin-top: 0.5rem; display: none;">⚠️ 名前を入力してください</div>
             </div>
 
             <div style="text-align: left; margin-bottom: 1.5rem;">
@@ -292,7 +294,6 @@
     </footer>
 
     <script>
-        // 埋め込み済みのGASウェブアプリURL
         const GAS_URL = "https://script.google.com/macros/s/AKfycbwwoPWn07KcM6szYA_KNKnRJVgrEooD3rChMxsj_16GjOYLMea1ZuyA_Rp-XGDq1aHf5w/exec";
 
         const elementQuestions = [
@@ -529,14 +530,23 @@
             let rate = Math.round((endlessScore / endlessTotal) * 100);
             document.getElementById('endless-final-score-text').innerText = `${endlessScore}問正解 / ${endlessTotal}問回答 (${rate}%)`;
             document.getElementById('endless-player-name').value = '';
+            document.getElementById('endless-name-error').style.display = 'none';
             changeScreen('endless-save-screen');
         }
 
         function saveEndlessRanking() {
-            let name = document.getElementById('endless-player-name').value.trim();
-            if (!name) name = "名無しさん";
-            let rate = endlessTotal === 0 ? 0 : Math.round((endlessScore / endlessTotal) * 100);
+            let nameInput = document.getElementById('endless-player-name');
+            let name = nameInput.value.trim();
+            let errorDiv = document.getElementById('endless-name-error');
 
+            if (!name) {
+                errorDiv.style.display = 'block';
+                nameInput.focus();
+                return;
+            }
+            errorDiv.style.display = 'none';
+
+            let rate = endlessTotal === 0 ? 0 : Math.round((endlessScore / endlessTotal) * 100);
             let btn = document.getElementById('endless-save-btn');
             btn.innerText = "登録中...";
             btn.disabled = true;
@@ -545,8 +555,8 @@
                 action: "postScore",
                 mode: "endless",
                 name: name,
-                score: rate, // 正解率をスコアとして保存
-                total: endlessScore, // 正解数をtotalに保持
+                score: rate,
+                total: endlessScore,
                 date: new Date().toLocaleDateString()
             });
 
@@ -645,6 +655,7 @@
             else comment = "💪 もう一度挑戦して満点を目指しよう！";
             document.getElementById('final-comment').innerText = comment;
             document.getElementById('test-player-name').value = '';
+            document.getElementById('test-name-error').style.display = 'none';
 
             const container = document.getElementById('test-review-list');
             let html = '';
@@ -675,8 +686,16 @@
         }
 
         function saveTestRanking() {
-            let name = document.getElementById('test-player-name').value.trim();
-            if (!name) name = "名無しさん";
+            let nameInput = document.getElementById('test-player-name');
+            let name = nameInput.value.trim();
+            let errorDiv = document.getElementById('test-name-error');
+
+            if (!name) {
+                errorDiv.style.display = 'block';
+                nameInput.focus();
+                return;
+            }
+            errorDiv.style.display = 'none';
 
             let btn = document.getElementById('test-save-btn');
             btn.innerText = "登録中...";
