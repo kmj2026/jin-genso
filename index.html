@@ -92,18 +92,12 @@
 
         <!-- 0. トップメニュー画面 -->
         <div id="top-screen" class="space-y-6 text-center">
-            <h2 class="text-2xl font-black text-white mb-2">
+            <h2 class="text-2xl font-black text-white mb-4">
                 <i class="fa-solid fa-flask text-cyber-accent mr-2"></i>モードを選んでね！（全118元素対応）
             </h2>
             
-            <div class="space-y-2 text-left pb-2">
-                <label class="text-sm font-bold text-cyber-blue"><i class="fa-solid fa-user mr-2"></i>プレイヤーのなまえ：</label>
-                <input type="text" id="player-name" placeholder="なまえを入力（例: じん）" 
-                    class="w-full p-4 rounded-2xl bg-slate-900 border-2 border-cyber-blue text-white font-bold text-xl text-center focus:outline-none focus:border-cyber-accent">
-            </div>
-
             <div class="grid grid-cols-1 gap-4">
-                <button onclick="startEndlessMode()" class="pop-button flex items-center justify-between p-5 bg-sky-500 hover:bg-sky-400 text-slate-900 font-black text-xl rounded-2xl border-2 border-white text-left">
+                <button onclick="triggerEndlessMode()" class="pop-button flex items-center justify-between p-5 bg-sky-500 hover:bg-sky-400 text-slate-900 font-black text-xl rounded-2xl border-2 border-white text-left">
                     <div class="flex items-center space-x-4">
                         <i class="fa-solid fa-infinity text-3xl"></i>
                         <div>
@@ -114,7 +108,7 @@
                     <i class="fa-solid fa-chevron-right"></i>
                 </button>
 
-                <button onclick="startTestMode()" class="pop-button flex items-center justify-between p-5 bg-purple-500 hover:bg-purple-400 text-slate-900 font-black text-xl rounded-2xl border-2 border-white text-left">
+                <button onclick="triggerTestMode()" class="pop-button flex items-center justify-between p-5 bg-purple-500 hover:bg-purple-400 text-slate-900 font-black text-xl rounded-2xl border-2 border-white text-left">
                     <div class="flex items-center space-x-4">
                         <i class="fa-solid fa-award text-3xl"></i>
                         <div>
@@ -145,7 +139,7 @@
                 <div id="endless-result-badge" class="text-xl font-black"></div>
                 <p id="endless-exp-text" class="text-sm md:text-base text-slate-200 leading-relaxed font-bold"></p>
                 <div class="flex gap-3 pt-2">
-                    <button onclick="nextEndlessQuestion()" class="pop-button flex-1 py-3 bg-cyber-accent text-slate-900 font-black text-base rounded-xl border border-white">
+                    <button onclick="loadNextEndlessQuestion()" class="pop-button flex-1 py-3 bg-cyber-accent text-slate-900 font-black text-base rounded-xl border border-white">
                         次の問題へ <i class="fa-solid fa-arrow-right ml-1"></i>
                     </button>
                     <button onclick="showScreen('top-screen')" class="pop-button px-5 py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold text-base rounded-xl border border-slate-600">
@@ -201,7 +195,7 @@
     </footer>
 
     <script>
-        // 1〜118元素すべての性質・特性データベース ＆ 各元素ごとのダミー選択肢（5つ以上用意）
+        // 1〜118元素すべての性質・特性データベース ＆ 各元素ごとのダミー選択肢
         const elementQuestions = [
             { q: "水素(H)の性質・特性として正しいものはどれ？", correct: "火をつけると激しく燃える", dummies: ["常温で液体である", "磁石に強く引きつけられる", "水よりも重い固体である", "電気をピカピカよく通す金属である", "強い放射線を出す"], explanation: "水素は火をつけると激しく燃え、『水素爆発』を起こすことも。宇宙で最も多く存在する最も軽い元素です。" },
             { q: "ヘリウム(He)の性質・特性として正しいものはどれ？", correct: "吸い込むと声が高くなる", dummies: ["強い毒性がある", "水に溶かすと強い酸性になる", "常温で気体の金属である", "空気に触れると爆発する", "磁石にくっつく"], explanation: "ヘリウムは非常に軽く不燃性の気体で、吸い込むと声が高くなります。宇宙では水素の次に多い元素です。" },
@@ -303,7 +297,7 @@
             { q: "カリホルニウム(Cf)の性質・特性として正しいものはどれ？", correct: "強烈な中性子を放出するため、中性子源として使われる", "常温で液体", "安全な宝飾品になる", "水に浮く", "気体の非金属"], explanation: "カリホルニウム-252は大量の中性子を放出する特性があり、原子炉の起動源やがん治療の放射線源として使われます。" },
             { q: "アインスタイニウム(Es)の性質・特性として正しいものはどれ？", correct: "水爆実験の fallout（残骸）の中から発見された元素", "常温で気体", "水に溶ける", "安全な栄養素", "磁石にくっつく"], explanation: "アインスタイニウムは、1952年の水爆実験（アイビー作戦）の debris から発見され、物理学者アインシュタインにちなみ命名されました。" },
             { q: "フェルミウム(Fm)の性質・特性として正しいものはどれ？", correct: "水爆実験の残骸から発見された超ウラン元素の一つ", "常温で液体", "磁石にくっつく", "水に浮く", "安全な物質"], explanation: "フェルミウムも水爆実験の fallout から発見された人工元素で、イタリアの物理学者エンリコ・フェルミにちなみます。" },
-            { q: "メンデレビウム(Md)の性質・特性として正しいものはどれ？", correct: "元素の周期表作ったメンデレーエフにちなむ人工元素", "常温で気体", "水と激しく反応する", "水に浮く", "磁石にくっつく"], explanation: "メンデレビウムは周期表を発明したドミトリー・メンデレーエフの名を冠して命名された人工の放射性元素です。" },
+            { q: "メンデレビウム(Md)の性質・特性として正しいものはどれ？", correct: "元素の周期表を作ったメンデレーエフにちなむ人工元素", "常温で気体", "水と激しく反応する", "水に浮く", "磁石にくっつく"], explanation: "メンデレビウムは周期表を発明したドミトリー・メンデレーエフの名を冠して命名された人工の放射性元素です。" },
             { q: "ノーベリウム(No)の性質・特性として正しいものはどれ？", correct: "ノーベル賞のアルフレッド・ノーベルにちなむ人工元素", "常温で液体", "非常に軽い気体", "水に浮く", "磁石にくっつく"], explanation: "ノーベリウムはノーベル研究所（スウェーデン）の科学者らによって合成され、ノーベルにちなみ名付けられました。" },
             { q: "ローレンシウム(Lr)の性質・特性として正しいものはどれ？", correct: "サイクロトロンを発明したローレンスにちなむ人工元素", "常温で気体", "水に浮く金属", "磁石にくっつく", "無害な物質"], explanation: "ローレンシウムは素粒子物理学の加速器（サイクロトロン）を発明したアーネスト・ローレンスにちなんで命名されました。" },
             { q: "ラザフォードウム(Rf)の性質・特性として正しいものはどれ？", correct: "原子核の構造を解明したラザフォードにちなむ超重元素", "常温で液体", "安全な金属", "水に浮く", "気体の非金属"], explanation: "ラザフォードウムは原子核の存在を提唱した物理学者ラザフォードの名を冠した、第7周期の超重元素です。" },
@@ -323,7 +317,6 @@
             { q: "オガネソン(Og)の性質・特性として正しいものはどれ？", correct: "現在のところ最も大きい原子番号（118番）を持つ元素", "常温で液体金属", "水素より軽い気体", "水に浮く", "磁石にくっつく"]
         ];
 
-        let playerName = '';
         let countdownInterval;
 
         // 共通カウントダウン演出 (3, 2, 1, スタート！)
@@ -336,7 +329,7 @@
             const updateCount = (val, colorClass = 'text-cyber-accent') => {
                 textEl.className = `text-7xl md:text-9xl font-black ${colorClass} tracking-wider drop-shadow-[0_0_25px_rgba(250,204,21,0.8)] animate-countdown`;
                 textEl.innerText = val;
-                void textEl.offsetWidth; // リフレッシュ
+                void textEl.offsetWidth;
             };
 
             updateCount(3);
@@ -373,23 +366,18 @@
             }
         }
 
-        // 5つのダミーからランダムで2つ選び、正解1つと合わせて計3択（シャッフルして）生成するヘルパー関数
+        // 3択を生成するヘルパー関数
         function generateRandom3Choices(qItem) {
-            // ダミーをランダムにシャッフルして2つ取得
             let shuffledDummies = [...qItem.dummies].sort(() => 0.5 - Math.random());
             let selectedDummies = shuffledDummies.slice(0, 2);
 
-            // 正解とダミー2つをまとめる
             let choices = [
                 { text: qItem.correct, isCorrect: true },
                 { text: selectedDummies[0], isCorrect: false },
                 { text: selectedDummies[1], isCorrect: false }
             ];
 
-            // 3つの選択肢の並び順もランダムにシャッフル
             choices.sort(() => 0.5 - Math.random());
-
-            // 正解のインデックス（0, 1, 2のどこにあるか）を特定する
             let correctIndex = choices.findIndex(c => c.isCorrect);
 
             return {
@@ -401,19 +389,12 @@
         // ==================== エンドレスモード関連 ====================
         let endlessScore = 0;
         let currentEndlessQ = {};
-        let currentEndlessAnswerIdx = 0;
 
-        function startEndlessMode() {
-            playerName = document.getElementById('player-name').value.trim();
-            if (!playerName) {
-                alert("プレイヤーのなまえを入力してね！");
-                return;
-            }
-            endlessScore = 0;
-            document.getElementById('endless-score').innerText = endlessScore;
+        function triggerEndlessMode() {
             showScreen('endless-screen');
-
             startCountdown(() => {
+                endlessScore = 0;
+                document.getElementById('endless-score').innerText = endlessScore;
                 loadNextEndlessQuestion();
             });
         }
@@ -421,7 +402,6 @@
         function loadNextEndlessQuestion() {
             document.getElementById('endless-explanation-box').classList.add('hidden');
             
-            // 118元素からランダムに1問取得
             let rawQ = elementQuestions[Math.floor(Math.random() * elementQuestions.length)];
             let generated = generateRandom3Choices(rawQ);
 
@@ -464,44 +444,30 @@
             document.getElementById('endless-explanation-box').classList.remove('hidden');
         }
 
-        function nextEndlessQuestion() {
-            loadNextEndlessQuestion();
-        }
-
         // ==================== 10問テストモード関連（重複なし） ====================
         let testQuestions = [];
         let testIndex = 0;
         let testScore = 0;
         let userTestAnswers = [];
 
-        function startTestMode() {
-            playerName = document.getElementById('player-name').value.trim();
-            if (!playerName) {
-                alert("プレイヤーのなまえを入力してね！");
-                return;
-            }
-
-            // 118元素から「重複なし」でランダムに10問を抽出し、それぞれ3択を生成
-            let rawSelected = [...elementQuestions].sort(() => 0.5 - Math.random()).slice(0, 10);
-            testQuestions = rawSelected.map(rawQ => {
-                let generated = generateRandom3Choices(rawQ);
-                return {
-                    q: rawQ.q,
-                    options: generated.options,
-                    answer: generated.answer,
-                    explanation: rawQ.explanation
-                };
-            });
-
-            testIndex = 0;
-            testScore = 0;
-            userTestAnswers = [];
-
+        function triggerTestMode() {
             showScreen('test-play-screen');
-            showTestQuestion();
-
             startCountdown(() => {
-                // カウントダウン後にスタート
+                let rawSelected = [...elementQuestions].sort(() => 0.5 - Math.random()).slice(0, 10);
+                testQuestions = rawSelected.map(rawQ => {
+                    let generated = generateRandom3Choices(rawQ);
+                    return {
+                        q: rawQ.q,
+                        options: generated.options,
+                        answer: generated.answer,
+                        explanation: rawQ.explanation
+                    };
+                });
+
+                testIndex = 0;
+                testScore = 0;
+                userTestAnswers = [];
+                showTestQuestion();
             });
         }
 
@@ -531,7 +497,7 @@
             let qData = testQuestions[testIndex];
             let isCorrect = (selectedIdx === qData.answer);
             if (isCorrect) {
-                testScore += 10; // 1問10点
+                testScore += 10;
             }
 
             userTestAnswers.push({
