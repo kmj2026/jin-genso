@@ -141,7 +141,7 @@
 <body>
 
     <header>
-        <button type="button" onclick="confirmExitEndless()" id="home-btn" style="display: none; padding: 0.5rem 1rem; background-color: #1e293b; color: #fde047; border-radius: 0.75rem; border: 1px solid #fde047; font-weight: bold; font-size: 0.875rem; cursor: pointer;">
+        <button type="button" onclick="confirmExitToTop()" id="home-btn" style="display: none; padding: 0.5rem 1rem; background-color: #1e293b; color: #fde047; border-radius: 0.75rem; border: 1px solid #fde047; font-weight: bold; font-size: 0.875rem; cursor: pointer;">
             <i class="fa-solid fa-house" style="margin-right: 4px;"></i>トップに戻る
         </button>
         <div style="flex: 1; text-align: center;">
@@ -155,6 +155,13 @@
         <div id="top-screen">
             <h2>モードを選んでね！（全118元素対応）</h2>
             
+            <!-- プレイヤー名入力エリア（トップ画面に常設） -->
+            <div style="background-color: #0f172a; padding: 1.25rem; border-radius: 1rem; border: 1px solid #475569; margin-bottom: 1.5rem; text-align: left;">
+                <label style="display: block; font-size: 0.85rem; font-weight: bold; color: #cbd5e1; margin-bottom: 0.5rem;">プレイヤー名を入力してね <span style="color: #f43f5e;">(必須)</span></label>
+                <input type="text" id="global-player-name" maxlength="12" placeholder="なまえ（例: 元素博士）" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #475569; background-color: #1e293b; color: #ffffff; font-weight: bold; font-size: 1rem;">
+                <div id="global-name-error" style="color: #f43f5e; font-size: 0.75rem; font-weight: bold; margin-top: 0.5rem; display: none;">⚠️ まず名前を入力してください</div>
+            </div>
+
             <div style="margin-bottom: 2rem;">
                 <button type="button" onclick="startEndless()" class="pop-btn btn-sky">
                     <div style="display: flex; align-items: center; gap: 1rem; pointer-events: none;">
@@ -220,30 +227,11 @@
                     <button type="button" onclick="loadNextEndlessQuestion()" class="primary-action-btn" style="flex: 1; padding: 0.75rem;">
                         次の問題へ <i class="fa-solid fa-arrow-right" style="margin-left: 4px;"></i>
                     </button>
-                    <button type="button" onclick="confirmExitEndless()" style="cursor: pointer; padding: 0.75rem 1.25rem; background-color: #334155; color: #ffffff; font-weight: bold; border-radius: 1.0rem; border: 1px solid #64748b;">
+                    <button type="button" onclick="confirmExitToTop()" style="cursor: pointer; padding: 0.75rem 1.25rem; background-color: #334155; color: #ffffff; font-weight: bold; border-radius: 1.0rem; border: 1px solid #64748b;">
                         Topに戻る
                     </button>
                 </div>
             </div>
-        </div>
-
-        <!-- エンドレス終了・名前入力画面 -->
-        <div id="endless-save-screen" style="display: none; text-align: center;">
-            <h2 style="font-size: 1.5rem; color: #38bdf8; margin-bottom: 1rem;">🏁 エンドレス終了！ 🏁</h2>
-            <div style="background-color: #0f172a; padding: 1.5rem; border-radius: 1rem; border: 1px solid #475569; margin-bottom: 1.5rem;">
-                <p style="color: #94a3b8; font-weight: bold; margin: 0 0 0.5rem 0;">今回の成績</p>
-                <p id="endless-final-score-text" style="font-size: 1.8rem; font-weight: 900; color: #4ade80; margin: 0 0 0.5rem 0;">0問正解 (0%)</p>
-            </div>
-
-            <div style="background-color: #0f172a; padding: 1.25rem; border-radius: 1rem; border: 1px solid #475569; margin-bottom: 1.5rem; text-align: left;">
-                <label style="display: block; font-size: 0.85rem; font-weight: bold; color: #cbd5e1; margin-bottom: 0.5rem;">ランキングに載せる名前を入力してね <span style="color: #f43f5e;">(必須)</span></label>
-                <input type="text" id="endless-player-name" maxlength="12" placeholder="なまえ（例: 元素博士）" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #475569; background-color: #1e293b; color: #ffffff; font-weight: bold; font-size: 1rem;">
-                <div id="endless-name-error" style="color: #f43f5e; font-size: 0.75rem; font-weight: bold; margin-top: 0.5rem; display: none;">⚠️ 名前を入力してください</div>
-            </div>
-
-            <button type="button" onclick="saveEndlessRanking()" class="primary-action-btn" id="endless-save-btn">
-                <i class="fa-solid fa-floppy-disk" style="margin-right: 0.5rem;"></i>ランキングに登録してトップへ
-            </button>
         </div>
 
         <!-- テストモードプレイ画面 -->
@@ -269,12 +257,6 @@
                 <p id="final-comment" style="font-size: 0.85rem; color: #38bdf8; font-weight: bold; margin: 0;"></p>
             </div>
 
-            <div style="background-color: #0f172a; padding: 1.25rem; border-radius: 1rem; border: 1px solid #475569; margin-bottom: 1.5rem; text-align: left;">
-                <label style="display: block; font-size: 0.85rem; font-weight: bold; color: #cbd5e1; margin-bottom: 0.5rem;">ランキングに載せる名前を入力してね <span style="color: #f43f5e;">(必須)</span></label>
-                <input type="text" id="test-player-name" maxlength="12" placeholder="なまえ（例: テスト王）" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #475569; background-color: #1e293b; color: #ffffff; font-weight: bold; font-size: 1rem;">
-                <div id="test-name-error" style="color: #f43f5e; font-size: 0.75rem; font-weight: bold; margin-top: 0.5rem; display: none;">⚠️ 名前を入力してください</div>
-            </div>
-
             <div style="text-align: left; margin-bottom: 1.5rem;">
                 <h3 style="font-size: 1rem; font-weight: 900; color: #ffffff; border-bottom: 1px solid #475569; padding-bottom: 0.5rem; margin-bottom: 1rem;">
                     <i class="fa-solid fa-clipboard-list" style="color: #fde047; margin-right: 0.5rem;"></i>こたえあわせ
@@ -297,6 +279,7 @@
         const GAS_URL = "https://script.google.com/macros/s/AKfycbw0HvErimWjqXR_oH4180exOjDTVZQssokbVI16Q0P0zraBuHcL6qDW5601gMwvcQJK/exec";
 
         let elementQuestions = [];
+        let currentPlayerName = "";
 
         // スプレッドシートから問題データを取得
         function fetchQuestions() {
@@ -316,7 +299,7 @@
         }
 
         function changeScreen(screenId) {
-            const screens = ['top-screen', 'endless-screen', 'endless-save-screen', 'test-play-screen', 'result-screen'];
+            const screens = ['top-screen', 'endless-screen', 'test-play-screen', 'result-screen'];
             screens.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = 'none';
@@ -333,6 +316,21 @@
             } else {
                 homeBtn.style.display = 'none';
             }
+        }
+
+        // 名前のバリデーションチェック
+        function validatePlayerName() {
+            let nameInput = document.getElementById('global-player-name');
+            let errorDiv = document.getElementById('global-name-error');
+            let name = nameInput.value.trim();
+
+            if (!name) {
+                errorDiv.style.display = 'block';
+                nameInput.focus();
+                return null;
+            }
+            errorDiv.style.display = 'none';
+            return name;
         }
 
         // 正解（2種類）からランダムに1つ、ダミー（5種類）から短いもの・長いものを交えてランダムに2つ選出する
@@ -376,6 +374,10 @@
         let currentEndlessQ = {};
 
         function startEndless() {
+            let name = validatePlayerName();
+            if (!name) return;
+            currentPlayerName = name;
+
             if (elementQuestions.length === 0) {
                 alert("問題データを読み込み中です。少し待ってからもう一度試してください。");
                 fetchQuestions();
@@ -441,39 +443,19 @@
             document.getElementById('endless-explanation-box').style.display = 'block';
         }
 
-        function confirmExitEndless() {
-            if (endlessTotal === 0) {
+        function confirmExitToTop() {
+            if (confirm("トップに戻りますか？（プレイ中の成績は保存されません）")) {
                 changeScreen('top-screen');
-                return;
             }
-            let rate = Math.round((endlessScore / endlessTotal) * 100);
-            document.getElementById('endless-final-score-text').innerText = `${endlessScore}問正解 / ${endlessTotal}問回答 (${rate}%)`;
-            document.getElementById('endless-player-name').value = '';
-            document.getElementById('endless-name-error').style.display = 'none';
-            changeScreen('endless-save-screen');
         }
 
         function saveEndlessRanking() {
-            let nameInput = document.getElementById('endless-player-name');
-            let name = nameInput.value.trim();
-            let errorDiv = document.getElementById('endless-name-error');
-
-            if (!name) {
-                errorDiv.style.display = 'block';
-                nameInput.focus();
-                return;
-            }
-            errorDiv.style.display = 'none';
-
             let rate = endlessTotal === 0 ? 0 : Math.round((endlessScore / endlessTotal) * 100);
-            let btn = document.getElementById('endless-save-btn');
-            btn.innerText = "登録中...";
-            btn.disabled = true;
 
             let params = new URLSearchParams({
                 action: "postScore",
                 mode: "endless",
-                name: name,
+                name: currentPlayerName,
                 score: rate,
                 total: endlessScore,
                 date: new Date().toLocaleDateString()
@@ -482,15 +464,11 @@
             fetch(GAS_URL + "?" + params.toString())
                 .then(response => response.json())
                 .then(data => {
-                    btn.innerText = "ランキングに登録してトップへ";
-                    btn.disabled = false;
                     changeScreen('top-screen');
                 })
                 .catch(error => {
                     console.error("Error:", error);
                     alert("登録に失敗しました。通信環境を確認してください。");
-                    btn.innerText = "ランキングに登録してトップへ";
-                    btn.disabled = false;
                 });
         }
 
@@ -501,6 +479,10 @@
         let userTestAnswers = [];
 
         function startTest() {
+            let name = validatePlayerName();
+            if (!name) return;
+            currentPlayerName = name;
+
             if (elementQuestions.length === 0) {
                 alert("問題データを読み込み中です。少し待ってからもう一度試してください。");
                 fetchQuestions();
@@ -578,8 +560,6 @@
             else if (testScore >= 40) comment = "👍 まずまずの成績！解説を読んで苦手を克服しよう！";
             else comment = "💪 もう一度挑戦して満点を目指しよう！";
             document.getElementById('final-comment').innerText = comment;
-            document.getElementById('test-player-name').value = '';
-            document.getElementById('test-name-error').style.display = 'none';
 
             const container = document.getElementById('test-review-list');
             let html = '';
@@ -610,17 +590,6 @@
         }
 
         function saveTestRanking() {
-            let nameInput = document.getElementById('test-player-name');
-            let name = nameInput.value.trim();
-            let errorDiv = document.getElementById('test-name-error');
-
-            if (!name) {
-                errorDiv.style.display = 'block';
-                nameInput.focus();
-                return;
-            }
-            errorDiv.style.display = 'none';
-
             let btn = document.getElementById('test-save-btn');
             btn.innerText = "登録中...";
             btn.disabled = true;
@@ -628,7 +597,7 @@
             let params = new URLSearchParams({
                 action: "postScore",
                 mode: "test",
-                name: name,
+                name: currentPlayerName,
                 score: testScore,
                 date: new Date().toLocaleDateString()
             });
@@ -685,11 +654,10 @@
                         data.forEach((item, idx) => {
                             let medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `${idx + 1}.`;
                             html += `
-                                <div class="ranking-item">
+                                ` + `<div class="ranking-item">
                                     <div><span style="font-weight: bold; margin-right: 0.5rem; color: #fde047;">${medal}</span> ${escapeHtml(item.name)}</div>
                                     <div style="font-weight: bold; color: #c084fc;">${item.score} 点</div>
-                                </div>
-                            `;
+                                </div>`;
                         });
                     }
                     document.getElementById('test-ranking-list').innerHTML = html;
